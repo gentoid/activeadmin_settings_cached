@@ -6,7 +6,13 @@ module ActiveadminSettingsCached
       #TODO: this method call save every param
       # save only changed values
       settings_params.each_pair do |name, value|
-        settings[name] = value
+        if settings.defaults[name].is_a?(Hash)
+          unless settings[name][:value] == value
+            settings[name] = { as: settings.defaults[name][:as], value: value }
+          end
+        else
+          settings[name] = value unless settings[name] == value
+        end
       end
 
       redirect_to :back

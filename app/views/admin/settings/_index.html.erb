@@ -13,7 +13,12 @@
           <td><strong><%= t("settings.attributes.#{name}.name") %></strong></td>
           <td>
             <div class='form'>
-              <ol><%= f.input name, label: false, input_html: { value: value } %></ol>
+              <% if value.is_a?(Hash) %>
+                  <% p name, value %>
+                  <ol><%= f.input name, label: false, as: value[:as], input_html: { value: value[:value], rows: 10 } %></ol>
+              <% else %>
+                  <ol><%= f.input name, label: false, input_html: { value: value } %></ol>
+              <% end %>
             </div>
           </td>
         </tr>
